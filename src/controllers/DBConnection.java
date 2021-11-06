@@ -18,4 +18,15 @@ public class DBConnection {
 		}
 		return null;
 	};
+	
+	public boolean checkConnection() {
+		try {
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/projeto_mecanica",  "root", "root");
+			return !conn.isClosed();
+		}catch(SQLException e) {
+			e.printStackTrace();
+			return false;
+			
+		}
+	}
 }

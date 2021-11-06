@@ -1,50 +1,30 @@
 package views;
 
-import java.awt.EventQueue;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
 import controllers.UsuarioDAO;
+import models.Usuario;
 
 import javax.swing.JPasswordField;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 
-public class frm_login {
+public class frm_login extends Main{
 
 	private JFrame frame;
 	private JTextField textField;
 	private JPasswordField passwordField;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					frm_login window = new frm_login();
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
-	 * Create the application.
-	 */
+	
+	
 	public frm_login() {
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
+	
 	private void initialize() {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 300);
@@ -66,17 +46,28 @@ public class frm_login {
 				
 				UsuarioDAO userdao = new UsuarioDAO();
 				
-				boolean podeLogar = userdao.LogIn(textField.getText(), String.valueOf(passwordField.getPassword()));
-				
-				if(!podeLogar)
-					JOptionPane.showMessageDialog(null,"Ok", "Pode logar", JOptionPane.DEFAULT_OPTION);
-				else
-					JOptionPane.showMessageDialog(null,"Not Ok", "Proibido", JOptionPane.ERROR_MESSAGE);
-					
-				
+				boolean NaopodeLogar = false;
+				try {
+					NaopodeLogar = userdao.AuthUser(textField.getText(), String.valueOf(passwordField.getPassword()));
+					if(NaopodeLogar) {
+						JOptionPane.showMessageDialog(null,"Endereço de e-mail ou senha incorretos.", "Erro ao se autenticar.", JOptionPane.ERROR_MESSAGE);
+						return;
+					}else {
+						start_main_menu(userdao.GetInfoUser(textField.getText()));
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}		
 			}
 		});
 		btnNewButton.setBounds(60, 146, 89, 23);
 		frame.getContentPane().add(btnNewButton);
+		this.frame.setVisible(true);
+	}
+	
+	private void start_main_menu(Usuario user) {
+		this.frame.dispose();
+		Main.currentUser = user;
+		new frm_main_menu();
 	}
 }

@@ -5,6 +5,7 @@ public class Usuario{
 	private String cpf;
 	private String nome;
 	private String email;
+	private String endereco;
 	private int nivel;
 	
 	public String getCpf() {
@@ -37,6 +38,14 @@ public class Usuario{
 
 	public void setNivel(int nivel) {
 		this.nivel = nivel;
+	}
+
+	public String getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(String endereco) {
+		this.endereco = endereco;
 	}
 	
 }

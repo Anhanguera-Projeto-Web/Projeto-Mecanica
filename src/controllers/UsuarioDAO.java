@@ -4,38 +4,35 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
 
 import models.Usuario;
-import controllers.DBConnection;
+
 
 public class UsuarioDAO implements IUsuario {
 
 	private Connection conn;
 
-	public UsuarioDAO() {
-		this.conn = new DBConnection().getConnection();
-	}
+	public UsuarioDAO() {}
+	
 	
 	@Override
-	public boolean LogIn(String mail, String passwd) {
+	public boolean AuthUser(String email, String passwd) throws SQLException {
+		this.conn = new DBConnection().getConnection();
 		String sql = "SELECT fun_autentica_usuario(?, ?) as resultado_login;";
 		
 		try {
 			PreparedStatement stmt = this.conn.prepareStatement(sql);
 				
-				stmt.setString(1, mail);
+				stmt.setString(1, email);
 				stmt.setString(2, passwd);
 				
 				ResultSet res = stmt.executeQuery();
 				if(res == null) return false;
 
 				int cod_ret = 0;
-				
-							
-				while(res.next()) {
-					cod_ret = res.getInt("resultado_login");
 					
+				while(res.next()) {
+					cod_ret = res.getInt("resultado_login");	
 				}
 				
 				stmt.close();
@@ -44,8 +41,39 @@ public class UsuarioDAO implements IUsuario {
 					
 		}catch(SQLException err) {
 			throw new RuntimeException(err);
+		}finally {
+			this.conn.close();
 		}
 	}
-		
 
+
+	@Override
+	public Usuario GetInfoUser(String email) throws SQLException {
+		this.conn = new DBConnection().getConnection();
+		String sql = "CALL sp_getinfo_user_by_mail(?);";
+		try {
+			PreparedStatement stmt = this.conn.prepareStatement(sql);
+			
+			stmt.setString(1,email);
+			
+			ResultSet res = stmt.executeQuery();
+			Usuario user = new Usuario();
+			
+			while(res.next()) {
+				user.setCpf(res.getString(1));
+				user.setNome(res.getString(2));
+				user.setEmail(res.getString(3));
+				user.setNivel(res.getInt(4));
+				user.setEndereco(res.getString(5));
+			}
+			
+			return user;
+		}catch(SQLException err) {
+			throw new RuntimeException(err);
+		}finally {
+			this.conn.close();
+		}
+	}
+	
+	
 }

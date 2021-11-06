@@ -84,6 +84,38 @@ END$$
 DELIMITER ;
 ;
 
+DROP PROCEDURE IF EXISTS `projeto_mecanica`.`sp_getinfo_user_by_id`;
+;
+DELIMITER $$
+CREATE PROCEDURE `sp_getinfo_user_by_id`(IN id_user INT UNSIGNED)
+BEGIN
+	SELECT 
+		 cpf
+        ,nome
+        ,email
+        ,nivel
+        ,endereco
+	FROM `usuario` WHERE usuarioid = id_user;
+END$$
+DELIMITER ;
+;
+
+DROP PROCEDURE IF EXISTS `projeto_mecanica`.`sp_getinfo_user_by_mail`;
+;
+DELIMITER $$
+CREATE PROCEDURE `sp_getinfo_user_by_mail`(IN mail VARCHAR(300))
+BEGIN
+	SELECT 
+		 cpf
+        ,nome
+        ,email
+        ,nivel
+        ,endereco
+	FROM `usuario` WHERE email = mail;
+END$$
+DELIMITER ;
+;
+
 DROP procedure IF EXISTS `projeto_mecanica`.`sp_criar_produto`;
 ;
 DELIMITER $$
