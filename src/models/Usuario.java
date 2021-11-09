@@ -6,7 +6,12 @@ public class Usuario{
 	private String nome;
 	private String email;
 	private String endereco;
+	private Carrinho carrinho;
 	private int nivel;
+	
+	public Usuario() {
+		carrinho = new models.Carrinho();
+	}
 	
 	public String getCpf() {
 		return cpf;
@@ -46,6 +51,10 @@ public class Usuario{
 
 	public void setEndereco(String endereco) {
 		this.endereco = endereco;
+	}
+
+	public Carrinho getCarrinho() {
+		return carrinho;
 	}
 	
 }
