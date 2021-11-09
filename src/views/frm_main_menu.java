@@ -19,28 +19,38 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.SQLException;
+
 import javax.swing.border.TitledBorder;
 import javax.swing.border.EtchedBorder;
 import java.awt.Color;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import controllers.UsuarioDAO;
+
 import javax.swing.JScrollPane;
 import javax.swing.JProgressBar;
+import javax.swing.JDialog;
 import javax.swing.JEditorPane;
+import java.awt.Toolkit;
 
 public class frm_main_menu extends Main {
 
 	private JFrame frmProjetoMecnica;
+
+	private JTable tabela_shortage_produtos;
 	
 	
 
-	public frm_main_menu() {
+	public frm_main_menu() throws SQLException {
 		initialize();
 	}
 
 
-	private void initialize() {
+	private void initialize() throws SQLException {
 		frmProjetoMecnica = new JFrame();
+		frmProjetoMecnica.setIconImage(Toolkit.getDefaultToolkit().getImage(frm_main_menu.class.getResource("/assets/icon-32.png")));
 		frmProjetoMecnica.getContentPane().setBackground((Main.currentUser.getNivel() == 1) ? new Color(25, 25, 112) : new Color(0,0, 112));
 		frmProjetoMecnica.setResizable(false);
 		frmProjetoMecnica.setTitle("Projeto Mec\u00E2nica");
@@ -72,6 +82,19 @@ public class frm_main_menu extends Main {
 		mainPanel.add(panel_shortage_products);
 		panel_shortage_products.setLayout(null);
 		
+
+		
+		JScrollPane scrollPane_ShortageProducts = new JScrollPane();
+		scrollPane_ShortageProducts.setBounds(10, 21, 292, 359);
+		panel_shortage_products.add(scrollPane_ShortageProducts);
+		
+		tabela_shortage_produtos = carregaProdutosAEsgotar();
+		tabela_shortage_produtos.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		tabela_shortage_produtos.getTableHeader().setReorderingAllowed(false);
+		scrollPane_ShortageProducts.setViewportView(tabela_shortage_produtos);
+		
+
+		
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBounds(0, 0, 1016, 22);
 		frmProjetoMecnica.getContentPane().add(menuBar);
@@ -79,8 +102,16 @@ public class frm_main_menu extends Main {
 		JMenu mnOperacoes = new JMenu("Opera\u00E7\u00F5es");
 		menuBar.add(mnOperacoes);
 		
-		JMenuItem mntmNewMenuItem = new JMenuItem("New menu item");
-		mnOperacoes.add(mntmNewMenuItem);
+		JMenuItem mntm_verprodutos = new JMenuItem("Ver Produtos");
+		mntm_verprodutos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				frmProjetoMecnica.dispose();
+				new frm_produtos();
+			}
+		});
+		mntm_verprodutos.setHorizontalAlignment(SwingConstants.CENTER);
+		mntm_verprodutos.setFont(new Font("Rubik", Font.PLAIN, 12));
+		mnOperacoes.add(mntm_verprodutos);
 		
 		JMenuItem mntmNewMenuItem_1 = new JMenuItem("New menu item");
 		mnOperacoes.add(mntmNewMenuItem_1);
@@ -93,6 +124,16 @@ public class frm_main_menu extends Main {
 		
 		JMenuItem mntmNewMenuItem_3 = new JMenuItem("New menu item");
 		mnProdutos.add(mntmNewMenuItem_3);
+		
+		if(Main.currentUser.getNivel() == 2) {
+			JMenu mnRelatorios = new JMenu("Relatórios");
+			menuBar.add(mnRelatorios);
+			
+			JMenuItem mntm_gerarRelatorio = new JMenuItem("Gerar Relat\u00F3rio");
+			mntm_gerarRelatorio.setHorizontalAlignment(SwingConstants.CENTER);
+			mnRelatorios.add(mntm_gerarRelatorio);
+			
+		}
 		
 		JMenu mnOpcoes = new JMenu("Op\u00E7\u00F5es");
 		menuBar.add(mnOpcoes);
@@ -129,17 +170,6 @@ public class frm_main_menu extends Main {
 		panel_footer.add(lbl_footer_datetime);
 		frmProjetoMecnica.setVisible(true);
 		
-		if(Main.currentUser.getNivel() == 2) {
-			JMenu mnRelatorios = new JMenu("Relatórios");
-			menuBar.add(mnRelatorios);
-			
-			JMenuItem mntm_gerarRelatorio = new JMenuItem("Gerar Relat\u00F3rio");
-			mntm_gerarRelatorio.setHorizontalAlignment(SwingConstants.CENTER);
-			mnRelatorios.add(mntm_gerarRelatorio);
-			
-		}
-		
-		
 	
 		frmProjetoMecnica.addWindowListener(new WindowAdapter() {
 			
@@ -155,6 +185,9 @@ public class frm_main_menu extends Main {
 		});
 		
 	}
+	private JTable carregaProdutosAEsgotar() throws SQLException {
+		return new UsuarioDAO().GetProdutosAEsgotar();
+	};
 	
 	private String getDatetime() {
 		return new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(new Date());
