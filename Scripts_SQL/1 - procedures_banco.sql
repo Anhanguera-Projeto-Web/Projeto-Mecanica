@@ -120,7 +120,7 @@ DROP procedure IF EXISTS `projeto_mecanica`.`sp_criar_produto`;
 ;
 DELIMITER $$
 CREATE PROCEDURE `sp_criar_produto`(
-	IN  descricao VARCHAR(11), 
+	IN  descricao VARCHAR(200), 
 	IN	tipoproduto INT,
 	IN  tipomarca INT,
 	IN  valor DECIMAL(10,2)
@@ -133,6 +133,7 @@ proc_label:BEGIN
 	INSERT INTO `produtos` (descricao, tipoproduto, tipomarca, valor) VALUES(descricao, tipoproduto, tipomarca, valor);
     
 END$$
+
 
 DELIMITER ;
 ;
@@ -155,4 +156,21 @@ CREATE  SQL SECURITY DEFINER VIEW `view_retorna_produtos` AS
         JOIN `produto_marca` `pm` ON ((`pm`.`produto_marcaid` = `pd`.`tipomarca`)))
     WHERE 
         (1 = 1);
+        
+
+DROP VIEW IF EXISTS `view_retorna_produtos_a_esgotar`;
+
+CREATE  SQL SECURITY DEFINER VIEW `view_retorna_produtos_a_esgotar` AS
+    SELECT 
+        `pd`.`produtosid` AS `id`,
+        `pm`.`definicao` AS `marca`,
+        `pd`.`descricao` AS `descricao`,
+        `pd`.`estoque` AS `estoque`
+    FROM
+        ((`produtos` `pd`
+        JOIN `produto_tipo` `pt` ON ((`pt`.`produto_tipoid` = `pd`.`tipoproduto`)))
+        JOIN `produto_marca` `pm` ON ((`pm`.`produto_marcaid` = `pd`.`tipomarca`)))
+	WHERE `pd`.`disponivel` = 1
+    ORDER BY `pd`.`estoque` ASC;
+
 

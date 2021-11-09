@@ -75,6 +75,8 @@ CREATE TABLE `vendas`(
     updated_at DATETIME,
     
     CONSTRAINT FOREIGN KEY (funcionarioid)
-		REFERENCES usuario(usuarioid)
-    
+		REFERENCES usuario(usuarioid),
+        
+	CONSTRAINT FOREIGN KEY (metodo_pagamento)
+		REFERENCES metodo_pagamento(metodo_pagamentoid)
 )
