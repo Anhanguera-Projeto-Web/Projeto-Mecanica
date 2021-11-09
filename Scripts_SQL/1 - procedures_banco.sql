@@ -116,6 +116,27 @@ END$$
 DELIMITER ;
 ;
 
+DROP PROCEDURE IF EXISTS `projeto_mecanica`.`sp_get_vendas_by_user`;
+;
+DELIMITER $$
+CREATE PROCEDURE `sp_get_vendas_by_user`(IN mail VARCHAR(300))
+BEGIN
+
+	SELECT *
+	FROM `vendas` vd
+
+    INNER JOIN orcamento orca ON orca.vendaid = vd.vendasid
+    INNER JOIN produtos  prod ON orca.produtoid = prod.produtosid
+    INNER JOIN usuarios  usr  ON usr.usuarioid = vd.funcionarioid
+
+    WHERE usr.email = mail
+    ORDER BY `vd`.`created_at` DESC;
+
+END$$
+DELIMITER ;
+;
+
+
 DROP procedure IF EXISTS `projeto_mecanica`.`sp_criar_produto`;
 ;
 DELIMITER $$
@@ -133,44 +154,63 @@ proc_label:BEGIN
 	INSERT INTO `produtos` (descricao, tipoproduto, tipomarca, valor) VALUES(descricao, tipoproduto, tipomarca, valor);
     
 END$$
-
-
 DELIMITER ;
 ;
-DROP VIEW IF EXISTS `view_retorna_produtos`;
-
-CREATE  SQL SECURITY DEFINER VIEW `view_retorna_produtos` AS
-    SELECT 
-        `pd`.`produtosid` AS `produtoid`,
-        `pt`.`codigo` AS `cod_tipo_produto`,
-        `pt`.`definicao` AS `tipo_produto`,
-        `pm`.`codigo` AS `cod_tipo_marca`,
-        `pm`.`definicao` AS `marca`,
-        `pd`.`descricao` AS `descricao`,
-        `pd`.`valor` AS `valor`,
-        `pd`.`estoque` AS `estoque`,
-        `pd`.`disponivel` AS `disponivel`
-    FROM
-        ((`produtos` `pd`
-        JOIN `produto_tipo` `pt` ON ((`pt`.`produto_tipoid` = `pd`.`tipoproduto`)))
-        JOIN `produto_marca` `pm` ON ((`pm`.`produto_marcaid` = `pd`.`tipomarca`)))
-    WHERE 
-        (1 = 1);
-        
-
-DROP VIEW IF EXISTS `view_retorna_produtos_a_esgotar`;
-
-CREATE  SQL SECURITY DEFINER VIEW `view_retorna_produtos_a_esgotar` AS
-    SELECT 
-        `pd`.`produtosid` AS `id`,
-        `pm`.`definicao` AS `marca`,
-        `pd`.`descricao` AS `descricao`,
-        `pd`.`estoque` AS `estoque`
-    FROM
-        ((`produtos` `pd`
-        JOIN `produto_tipo` `pt` ON ((`pt`.`produto_tipoid` = `pd`.`tipoproduto`)))
-        JOIN `produto_marca` `pm` ON ((`pm`.`produto_marcaid` = `pd`.`tipomarca`)))
-	WHERE `pd`.`disponivel` = 1
-    ORDER BY `pd`.`estoque` ASC;
 
 
+
+DROP procedure IF EXISTS `projeto_mecanica`.`sp_realiza_orcamento`;
+;
+
+DELIMITER $$
+CREATE PROCEDURE `sp_realiza_orcamento`(
+    IN vendaid INT,
+    IN produtoid INT
+)
+proc_label:BEGIN
+
+    DECLARE estoque_inicial INT = (SELECT estoque FROM `projeto_mecanica`.`produtos` WHERE produtosid = produtoid);
+
+    IF(estoque_inicial = 0) THEN LEAVE proc_label; END IF;
+
+    estoque_inicial = estoque_inicial-1;
+
+    -- Atualização de estoque
+    UPDATE `projeto_mecanica`.`produtos` SET estoque = estoque_inicial WHERE produtosid = produtoid
+
+    -- Atualização de disponibilidade (Se estoque chegar a zero)
+    IF (estoque_inicial = 0 )THEN
+        UPDATE `projeto_mecanica`.`produtos` SET disponivel = 0 WHERE produtosid = produtoid;
+    END IF;
+
+END$$
+DELIMITER ;
+;
+
+
+
+DROP procedure IF EXISTS `projeto_mecanica`.`sp_realiza_venda`;
+;
+
+DELIMITER $$
+CREATE PROCEDURE `sp_realiza_venda`(
+        IN funcionarioid INT,
+        IN cpf_cliente VARCHAR(11),
+        IN metodo_pagamentoid INT
+        OUT vendaid INT
+)
+proc_label:BEGIN
+
+    IF (funcionarioid = NULL OR funcionarioid < 0) THEN LEAVE proc_label; END IF;
+	IF (cpf_cliente = '') THEN cpf_cliente = NULL END IF;
+    IF (metodo_pagamentoid = NULL OR metodo_pagamentoid < 0) THEN LEAVE proc_label; END IF;
+
+
+    INSERT INTO vendas(funcionarioid, cpf_cliente, metodo_pagamento)
+        VALUES(funcionarioid, cpf_cliente, metodo_pagamento);
+
+    RETURN SELECT LAST_INSERT_ID();
+
+END$$
+DELIMITER ;
+;

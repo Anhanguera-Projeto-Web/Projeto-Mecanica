@@ -57,14 +57,6 @@ CREATE TABLE `metodo_pagamento`(
     definicao VARCHAR(100) NOT NULL
 );
 
-CREATE TABLE `orcamento`(
-	orcamentoid INT UNSIGNED NOT NULL PRIMARY KEY UNIQUE AUTO_INCREMENT,
-    vendaid INT UNSIGNED NOT NULL,
-    produtoid INT UNSIGNED NOT NULL,
-    FOREIGN KEY (produtoid)
-		REFERENCES produtos(produtosid)
-);
-
 CREATE TABLE `vendas`(
 	vendasid INT UNSIGNED NOT NULL PRIMARY KEY UNIQUE AUTO_INCREMENT,
     funcionarioid INT UNSIGNED NOT NULL,
@@ -80,3 +72,14 @@ CREATE TABLE `vendas`(
 	CONSTRAINT FOREIGN KEY (metodo_pagamento)
 		REFERENCES metodo_pagamento(metodo_pagamentoid)
 )
+
+CREATE TABLE `orcamento`(
+	orcamentoid INT UNSIGNED NOT NULL PRIMARY KEY UNIQUE AUTO_INCREMENT,
+    vendaid INT UNSIGNED NOT NULL,
+    produtoid INT UNSIGNED NOT NULL,
+
+    FOREIGN KEY (vendaid)
+        REFERENCES vendas(vendasid)
+    FOREIGN KEY (produtoid)
+		REFERENCES produtos(produtosid)
+);
