@@ -5,6 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
 import models.Usuario;
 
 
@@ -68,6 +71,42 @@ public class UsuarioDAO implements IUsuario {
 			}
 			
 			return user;
+		}catch(SQLException err) {
+			throw new RuntimeException(err);
+		}finally {
+			this.conn.close();
+		}
+	}
+
+
+	@Override
+	public JTable GetProdutosAEsgotar() throws SQLException {
+		this.conn = new DBConnection().getConnection();
+		String sql = "SELECT * FROM view_retorna_produtos_a_esgotar;";
+		try {
+			PreparedStatement stmt = this.conn.prepareStatement(sql);
+			
+			String [] columns = {"ID", "Descrição", "Marca","Estoque"};
+			DefaultTableModel modeloTabela = new DefaultTableModel(null,columns);
+			
+			ResultSet res = stmt.executeQuery();			
+			
+			if(res != null) {
+				while(res.next()) {
+					modeloTabela.addRow(new String[] {
+							Integer.toString(res.getInt(1)),
+							res.getString(2),
+							res.getString(3),
+							Integer.toString(res.getInt(4))
+							
+					});
+				}
+			}
+			
+			JTable tabelafinal = new JTable();
+			tabelafinal.setModel(modeloTabela);
+			return tabelafinal;
+			
 		}catch(SQLException err) {
 			throw new RuntimeException(err);
 		}finally {
