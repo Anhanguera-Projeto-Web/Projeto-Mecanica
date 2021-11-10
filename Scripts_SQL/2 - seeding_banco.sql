@@ -47,6 +47,8 @@ CALL sp_criar_produto("Pneus", 0, 0, 379.99); -- Criando produto novo.
 CALL sp_criar_produto("Cera automotiva pastosa", 0, 0, 379.99); -- Criando produto novo.
 CALL sp_criar_produto("Cera automotiva líquida", 0, 0, 379.99); -- Criando produto novo.
 CALL sp_criar_produto("Cera automotiva Spray", 0, 0, 379.99); -- Criando produto novo.
+CALL sp_criar_produto("Limpa Motor e Rodas", 0, 0, 379.99); -- Criando produto novo.
+CALL sp_criar_produto("Massa de Polir", 0, 0, 379.99); -- Criando produto novo.
 CALL sp_criar_produto("Espuma multiuso", 0, 0, 379.99); -- Criando produto novo.
 CALL sp_criar_produto("Esponja", 0, 0, 379.99); -- Criando produto novo.
 CALL sp_criar_produto("Pano", 0, 0, 379.99); -- Criando produto novo.
@@ -54,7 +56,7 @@ CALL sp_criar_produto("Toalha de microfibra", 0, 0, 379.99); -- Criando produto 
 CALL sp_criar_produto("Limpa vidro", 0, 0, 16.41); -- Criando produto novo.
 CALL sp_criar_produto("Pretinho", 0, 0, 379.99); -- Criando produto novo.
 CALL sp_criar_produto("Silicone", 0, 0, 379.99); -- Criando produto novo.
-CALL sp_criar_produto("Silicone", 0, 0, 379.99); -- Criando produto novo.
+CALL sp_criar_produto("Cilindro de Roda Traseiro", 0, 0, 379.99); -- Criando produto novo.
 CALL sp_criar_produto("Aspirador de pó portátil", 0, 0, 379.99); -- Criando produto novo.
 CALL sp_criar_produto("Capa para volante", 0, 0, 22.99); -- Criando produto novo.
 CALL sp_criar_produto("CARPETE", 0, 0, 20.99); -- Criando produto novo.
@@ -76,6 +78,23 @@ CALL sp_criar_produto("Assento", 0, 0, 20.99); -- Criando produto novo.
 CALL sp_criar_produto("Cavalete Carro Automotivo", 0, 0, 20.99); -- Criando produto novo.
 CALL sp_criar_produto("Borboleta", 0, 0, 20.99); -- Criando produto novo.
 CALL sp_criar_produto("Burrinho", 0, 0, 20.99); -- Criando produto novo.
-CALL sp_criar_produto("freio", 0, 0, 20.99); -- Criando produto novo.
-CALL sp_criar_produto("macaco", 0, 0, 20.99); -- Criando produto novo.
-
+CALL sp_criar_produto("Freio", 0, 0, 20.99); -- Criando produto novo.
+CALL sp_criar_produto("Macaco", 0, 0, 20.99); -- Criando produto novo.
+CALL sp_criar_produto("Pistãocaco", 0, 0, 20.99); -- Criando produto novo.
+CALL sp_criar_produto("Caixa de câmbio", 0, 0, 20.99); -- Criando produto novo.
+CALL sp_criar_produto("Suspensão", 0, 0, 20.99); -- Criando produto novo.
+CALL sp_criar_produto("Pinhão impulsor de partida", 0, 0, 20.99); -- Criando produto novo.
+CALL sp_criar_produto("Pinça de Freio", 0, 0, 20.99); -- Criando produto novo.
+CALL sp_criar_produto("Escapamento", 0, 0, 20.99); -- Criando produto novo.
+CALL sp_criar_produto("Lâmpada Super LED Headlight HB3", 0, 0, 55.01); -- Criando produto novo.
+CALL sp_criar_produto("Filtro Combustível Injeção Civic", 0, 0, 55.01); -- Criando produto novo.
+CALL sp_criar_produto("Som Automotivo com Bluetooth Rádio", 0, 0, 55.01); -- Criando produto novo.
+CALL sp_criar_produto("Bomba de Combustível Belina e Corcel", 0, 0, 55.01); -- Criando produto novo.
+CALL sp_criar_produto("Terminal Direção", 0, 0, 55.01); -- Criando produto novo.
+CALL sp_criar_produto("Mangueira Retorno Radiador", 0, 0, 55.01); -- Criando produto novo.
+CALL sp_criar_produto("Eletroventiladores Citroen C3", 0, 0, 55.01); -- Criando produto novo.
+CALL sp_criar_produto("Agulha Carburador", 0, 0, 55.01); -- Criando produto novo.
+CALL sp_criar_produto("Conjunto Cápsula Vácuo Marcha", 0, 0, 55.01); -- Criando produto novo.
+CALL sp_criar_produto("Sensor Detonação Xantia", 0, 0, 55.01); -- Criando produto novo.
+CALL sp_criar_produto("Sensor de Velocidade Passat", 0, 0, 55.01); -- Criando produto novo.
+CALL sp_criar_produto("Diafragma Monoponto", 0, 0, 55.01); -- Criando produto novo.
