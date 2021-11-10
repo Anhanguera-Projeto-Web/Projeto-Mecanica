@@ -96,4 +96,4 @@ CALL sp_criar_produto("Agulha Carburador", 0, 0, 57.41);
 CALL sp_criar_produto("Conjunto Cápsula Vácuo Marcha", 0, 0, 50.18);
 CALL sp_criar_produto("Sensor Detonação Xantia", 0, 0, 56.78); 
 CALL sp_criar_produto("Sensor de Velocidade Passat", 0, 0, 81.61); 
-CALL sp_criar_produto("Diafragma Monoponto", 0, 0, 49.40); 
+CALL sp_criar_produto("Diafragma Monoponto", 0, 0, 49.40);
