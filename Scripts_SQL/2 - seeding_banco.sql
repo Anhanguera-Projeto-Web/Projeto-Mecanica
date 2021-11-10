@@ -73,4 +73,9 @@ CALL sp_criar_produto("Cebolão do radiador", 0, 0, 20.99); -- Criando produto n
 CALL sp_criar_produto("Engrenagem do virabrequim", 0, 0, 20.99); -- Criando produto novo.
 CALL sp_criar_produto("Sensor lambda", 0, 0, 20.99); -- Criando produto novo.
 CALL sp_criar_produto("Assento", 0, 0, 20.99); -- Criando produto novo.
+CALL sp_criar_produto("Cavalete Carro Automotivo", 0, 0, 20.99); -- Criando produto novo.
+CALL sp_criar_produto("Borboleta", 0, 0, 20.99); -- Criando produto novo.
+CALL sp_criar_produto("Burrinho", 0, 0, 20.99); -- Criando produto novo.
+CALL sp_criar_produto("freio", 0, 0, 20.99); -- Criando produto novo.
+CALL sp_criar_produto("macaco", 0, 0, 20.99); -- Criando produto novo.
 
