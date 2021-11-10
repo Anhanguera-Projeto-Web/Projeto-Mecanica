@@ -5,8 +5,16 @@ INSERT INTO `nivel` (definicao) VALUES ("Gerente"); 	  -- Nivel 2
 
 INSERT INTO `produto_tipo`(codigo, definicao) VALUES("S.01", "Serviço para carro");
 INSERT INTO `produto_tipo`(codigo, definicao) VALUES("S.02", "Serviço para moto");
+INSERT INTO `produto_tipo`(codigo, definicao) VALUES("S.03", "Serviço para caminhão");
+INSERT INTO `produto_tipo`(codigo, definicao) VALUES("S.04", "Serviço para caminhonete");
+INSERT INTO `produto_tipo`(codigo, definicao) VALUES("S.05", "Serviço para microonibus");
+INSERT INTO `produto_tipo`(codigo, definicao) VALUES("S.06", "Serviço para ônibus");
+INSERT INTO `produto_tipo`(codigo, definicao) VALUES("S.07", "Serviço para trator");
+
+
 INSERT INTO `produto_tipo`(codigo, definicao) VALUES("P.01", "Produtos comuns");
 INSERT INTO `produto_tipo`(codigo, definicao) VALUES("P.02", "Produtos especias");
+
 
 INSERT INTO `produto_marca`(codigo, definicao) VALUES("M.00", "Genérico");
 INSERT INTO `produto_marca`(codigo, definicao) VALUES("M.01", "Fiat");
@@ -35,3 +43,4 @@ CALL sp_criar_usuario("12312312399", "Jose´Silva", "admin", "jose@silva.com", "
 CALL sp_criar_produto("Óleo de Motor", 2, 10, 45.60); -- TP/MP/Preço -- Criando produto novo.
 CALL sp_criar_produto("Aerofolio", 4, 1, 300.0); -- Criando produto novo.
 CALL sp_criar_produto("Lubrificante", 2, 3, 50.0); -- Criando produto novo.
+
