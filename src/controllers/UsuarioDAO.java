@@ -82,7 +82,7 @@ public class UsuarioDAO implements IUsuario {
 	@Override
 	public JTable GetProdutosAEsgotar() throws SQLException {
 		this.conn = new DBConnection().getConnection();
-		String sql = "SELECT * FROM view_retorna_produtos_a_esgotar;";
+		String sql = "SELECT * FROM view_retorna_produtos_a_esgotar";
 		try {
 			PreparedStatement stmt = this.conn.prepareStatement(sql);
 			

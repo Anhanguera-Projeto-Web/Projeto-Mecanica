@@ -17,35 +17,61 @@ public class ProdutoDAO implements IProduto {
 	public ProdutoDAO() {}
 	
 	@Override
-	public JTable GetProdutos() {
-		return new JTable();
-		/*this.conn = new DBConnection().getConnection();
-		String sql = "SELECT fun_autentica_usuario(?, ?) as resultado_login;";
+	public JTable GetProdutos(String parameters) throws SQLException {
+		
+		this.conn = new DBConnection().getConnection();
+		String sql = "SELECT * FROM `view_retorna_produtos`";
+		
+		sql = sql + parameters;
+		
+		sql = (sql.replace("\n","")) + ";";
+		
+		System.out.println(sql);
 		
 		try {
-			PreparedStatement stmt = this.conn.prepareStatement(sql);
+			
+				PreparedStatement stmt = this.conn.prepareStatement(sql);
 				
-				stmt.setString(1, email);
-				stmt.setString(2, passwd);
-				
-				ResultSet res = stmt.executeQuery();
-				if(res == null) return false;
+				String [] columns = {"ID", "Cód. Tipo Produto", "Tipo de Produto","Cód. Marca","Marca", "Descrição","Preço", "Estoque" ,"Disponível", "Ação"};
+				DefaultTableModel modeloTabela = new DefaultTableModel(null,columns);
 
-				int cod_ret = 0;
-					
-				while(res.next()) {
-					cod_ret = res.getInt("resultado_login");	
-				}
+				ResultSet res = stmt.executeQuery(sql);
 				
+				
+				if(res != null) {
+					while(res.next()) {
+						
+						modeloTabela.addRow(new String[] {
+								Integer.toString(res.getInt(1)), // ID
+								res.getString(2),
+								res.getString(3), 							// Tipo Produto
+								res.getString(4),
+								res.getString(5), 							// Marca
+								res.getString(6), 							// Descricao
+								"R$ "+Double.toString(res.getDouble(7)), 	// Valor
+								Integer.toString(res.getInt(8)),			// Estoque
+								(res.getBoolean(9)) ? "✔" : "❌"
+										
+								
+						});
+					}
+				}
+				res.close();
 				stmt.close();
 				
-				return (cod_ret == 0) ? true : false;
+				JTable tabelafinal = new JTable() {
+					public boolean isCellEditable(int row, int column) {
+						return false;
+					}
+				};
+				tabelafinal.setModel(modeloTabela);
+				return tabelafinal;
 					
 		}catch(SQLException err) {
 			throw new RuntimeException(err);
 		}finally {
 			this.conn.close();
-		}*/
+		}
 	}
 
 	@Override
@@ -108,6 +134,9 @@ public class ProdutoDAO implements IProduto {
 		}
 		
 	}
+	
+	
+	
 
 }
 

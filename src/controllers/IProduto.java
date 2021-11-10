@@ -7,7 +7,7 @@ import javax.swing.JTable;
 
 public interface IProduto {
 
-	public JTable GetProdutos();
+	public JTable GetProdutos(String parameters) throws SQLException;
 	public ArrayList<String> GetMarcasExistentes() throws SQLException; // Popular ComboBox
 	public ArrayList<String> GetTipoExistentes() throws SQLException;   // Popular ComboBox
 }
