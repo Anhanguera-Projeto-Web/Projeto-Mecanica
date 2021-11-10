@@ -13,6 +13,3 @@ UPDATE produtos SET descricao = "Aerofolio Prateado" where produtosid = 1 ; -- T
 
 SELECT * FROM produtos;
 SELECT * FROM view_retorna_produtos WHERE disponivel = 1 -- Testando View.
-
-
-CALL sp_getinfo_user(1);
