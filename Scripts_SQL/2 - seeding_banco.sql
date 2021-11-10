@@ -43,4 +43,34 @@ CALL sp_criar_usuario("12312312399", "Jose´Silva", "admin", "jose@silva.com", "
 CALL sp_criar_produto("Óleo de Motor", 2, 10, 45.60); -- TP/MP/Preço -- Criando produto novo.
 CALL sp_criar_produto("Aerofolio", 4, 1, 300.0); -- Criando produto novo.
 CALL sp_criar_produto("Lubrificante", 2, 3, 50.0); -- Criando produto novo.
+CALL sp_criar_produto("Pneus", 0, 0, 379.99); -- Criando produto novo.
+CALL sp_criar_produto("Cera automotiva pastosa", 0, 0, 379.99); -- Criando produto novo.
+CALL sp_criar_produto("Cera automotiva líquida", 0, 0, 379.99); -- Criando produto novo.
+CALL sp_criar_produto("Cera automotiva Spray", 0, 0, 379.99); -- Criando produto novo.
+CALL sp_criar_produto("Espuma multiuso", 0, 0, 379.99); -- Criando produto novo.
+CALL sp_criar_produto("Esponja", 0, 0, 379.99); -- Criando produto novo.
+CALL sp_criar_produto("Pano", 0, 0, 379.99); -- Criando produto novo.
+CALL sp_criar_produto("Toalha de microfibra", 0, 0, 379.99); -- Criando produto novo.
+CALL sp_criar_produto("Limpa vidro", 0, 0, 16.41); -- Criando produto novo.
+CALL sp_criar_produto("Pretinho", 0, 0, 379.99); -- Criando produto novo.
+CALL sp_criar_produto("Silicone", 0, 0, 379.99); -- Criando produto novo.
+CALL sp_criar_produto("Silicone", 0, 0, 379.99); -- Criando produto novo.
+CALL sp_criar_produto("Aspirador de pó portátil", 0, 0, 379.99); -- Criando produto novo.
+CALL sp_criar_produto("Capa para volante", 0, 0, 22.99); -- Criando produto novo.
+CALL sp_criar_produto("CARPETE", 0, 0, 20.99); -- Criando produto novo.
+CALL sp_criar_produto("Luz Led", 0, 0, 20.99); -- Criando produto novo.
+CALL sp_criar_produto("Vela de iginição", 0, 0, 20.99); -- Criando produto novo.
+CALL sp_criar_produto("Sensor de temperatura da água", 0, 0, 20.99); -- Criando produto novo.
+CALL sp_criar_produto("Cilíndro mestre do freio", 0, 0, 20.99); -- Criando produto novo.
+CALL sp_criar_produto("Junta do cabeçote", 0, 0, 20.99); -- Criando produto novo.
+CALL sp_criar_produto("Amortecedor dianteiro", 0, 0, 20.99); -- Criando produto novo.
+CALL sp_criar_produto("Disco de freio", 0, 0, 20.99); -- Criando produto novo.
+CALL sp_criar_produto("Radiador do motor", 0, 0, 20.99); -- Criando produto novo.
+CALL sp_criar_produto("Fitro de ar do motor", 0, 0, 20.99); -- Criando produto novo.
+CALL sp_criar_produto("Válvula termostática", 0, 0, 20.99); -- Criando produto novo.
+CALL sp_criar_produto("Bronzina da biela", 0, 0, 20.99); -- Criando produto novo.
+CALL sp_criar_produto("Cebolão do radiador", 0, 0, 20.99); -- Criando produto novo.
+CALL sp_criar_produto("Engrenagem do virabrequim", 0, 0, 20.99); -- Criando produto novo.
+CALL sp_criar_produto("Sensor lambda", 0, 0, 20.99); -- Criando produto novo.
+CALL sp_criar_produto("Assento", 0, 0, 20.99); -- Criando produto novo.
 
