@@ -144,14 +144,16 @@ CREATE PROCEDURE `sp_criar_produto`(
 	IN  descricao VARCHAR(200), 
 	IN	tipoproduto INT,
 	IN  tipomarca INT,
-	IN  valor DECIMAL(10,2)
+	IN  valor DECIMAL(10,2),
+    IN  estoque INT UNSIGNED
 )
 proc_label:BEGIN
 	
     IF (descricao = NULL OR descricao = '') THEN LEAVE proc_label; END IF;
 	IF (tipoproduto = NULL OR tipoproduto = 0 OR valor = NULL) THEN LEAVE proc_label; END IF;
+    IF (estoque = NULL OR estoque = 0)THEN LEAVE proc_label; END IF;
     
-	INSERT INTO `produtos` (descricao, tipoproduto, tipomarca, valor) VALUES(descricao, tipoproduto, tipomarca, valor);
+	INSERT INTO `produtos` (descricao, tipoproduto, tipomarca, valor,estoque) VALUES(descricao, tipoproduto, tipomarca, valor, estoque);
     
 END$$
 DELIMITER ;

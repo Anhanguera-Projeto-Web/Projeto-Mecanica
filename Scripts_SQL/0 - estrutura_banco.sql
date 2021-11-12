@@ -71,7 +71,7 @@ CREATE TABLE `vendas`(
         
 	CONSTRAINT FOREIGN KEY (metodo_pagamento)
 		REFERENCES metodo_pagamento(metodo_pagamentoid)
-)
+);
 
 CREATE TABLE `orcamento`(
 	orcamentoid INT UNSIGNED NOT NULL PRIMARY KEY UNIQUE AUTO_INCREMENT,
@@ -79,7 +79,7 @@ CREATE TABLE `orcamento`(
     produtoid INT UNSIGNED NOT NULL,
 
     FOREIGN KEY (vendaid)
-        REFERENCES vendas(vendasid)
+        REFERENCES vendas(vendasid),
     FOREIGN KEY (produtoid)
 		REFERENCES produtos(produtosid)
 );
