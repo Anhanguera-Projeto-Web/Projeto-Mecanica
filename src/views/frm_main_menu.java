@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 
 import java.awt.SystemColor;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.awt.Font;
@@ -37,7 +38,7 @@ import java.awt.Toolkit;
 
 public class frm_main_menu extends Main {
 
-	private JFrame frmProjetoMecnica;
+	private JFrame frmProjetoMecanica;
 
 	private JTable tabela_shortage_produtos;
 	
@@ -49,20 +50,20 @@ public class frm_main_menu extends Main {
 
 
 	private void initialize() throws SQLException {
-		frmProjetoMecnica = new JFrame();
-		frmProjetoMecnica.setIconImage(Toolkit.getDefaultToolkit().getImage(frm_main_menu.class.getResource("/assets/icon-32.png")));
-		frmProjetoMecnica.getContentPane().setBackground((Main.currentUser.getNivel() == 1) ? new Color(25, 25, 112) : new Color(0,0, 112));
-		frmProjetoMecnica.setResizable(false);
-		frmProjetoMecnica.setTitle("Projeto Mec\u00E2nica");
+		frmProjetoMecanica = new JFrame();
+		frmProjetoMecanica.setIconImage(Toolkit.getDefaultToolkit().getImage(frm_main_menu.class.getResource("/assets/icon-32.png")));
+		frmProjetoMecanica.getContentPane().setBackground((Main.currentUser.getNivel() == 1) ? new Color(25, 25, 112) : new Color(0,0, 112));
+		frmProjetoMecanica.setResizable(false);
+		frmProjetoMecanica.setTitle("Projeto Mec\u00E2nica");
 	
-		frmProjetoMecnica.setBounds(100, 100, 1022, 522);
-		frmProjetoMecnica.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frmProjetoMecnica.getContentPane().setLayout(null);
+		frmProjetoMecanica.setBounds(100, 100, 1022, 522);
+		frmProjetoMecanica.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmProjetoMecanica.getContentPane().setLayout(null);
 		
 		JPanel mainPanel = new JPanel();
 		mainPanel.setBackground(SystemColor.activeCaption);
 		mainPanel.setBounds(10, 33, 985, 413);
-		frmProjetoMecnica.getContentPane().add(mainPanel);
+		frmProjetoMecanica.getContentPane().add(mainPanel);
 		mainPanel.setLayout(null);
 		
 		JPanel panel_lastSoldProducts = new JPanel();
@@ -97,15 +98,15 @@ public class frm_main_menu extends Main {
 		
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBounds(0, 0, 1016, 22);
-		frmProjetoMecnica.getContentPane().add(menuBar);
+		frmProjetoMecanica.getContentPane().add(menuBar);
 		
-		JMenu mnOperacoes = new JMenu("Opera\u00E7\u00F5es");
+		JMenu mnOperacoes = new JMenu("Produtos");
 		menuBar.add(mnOperacoes);
 		
 		JMenuItem mntm_verprodutos = new JMenuItem("Ver Produtos");
 		mntm_verprodutos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
-				frmProjetoMecnica.dispose();
+				frmProjetoMecanica.dispose();
 				new frm_produtos();
 			}
 		});
@@ -113,13 +114,37 @@ public class frm_main_menu extends Main {
 		mntm_verprodutos.setFont(new Font("Rubik", Font.PLAIN, 12));
 		mnOperacoes.add(mntm_verprodutos);
 		
-		JMenuItem mntmNewMenuItem_1 = new JMenuItem("New menu item");
-		mnOperacoes.add(mntmNewMenuItem_1);
 		
-		JMenuItem mntmNewMenuItem_2 = new JMenuItem("New menu item");
-		mnOperacoes.add(mntmNewMenuItem_2);
+		if(Main.currentUser.getNivel() == 2) {
+			JMenuItem mntm_criarProduto = new JMenuItem("Criar Produto");
+			mntm_criarProduto.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent evt) {
+					frmProjetoMecanica.dispose();
+					new frm_criarproduto();
+				}
+			});
+			mntm_criarProduto.setFont(new Font("Rubik", Font.PLAIN, 12));
+			mnOperacoes.add(mntm_criarProduto);
+		}
 		
-		JMenu mnProdutos = new JMenu("Produtos");
+		
+		
+		JMenuItem mntm_vercarrinho = new JMenuItem("Ver Carrinho");
+		mntm_vercarrinho.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frmProjetoMecanica.dispose();
+				try {
+					new frm_checkout();
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		mntm_vercarrinho.setFont(new Font("Rubik", Font.PLAIN, 12));
+		mnOperacoes.add(mntm_vercarrinho);
+		
+		JMenu mnProdutos = new JMenu("Opera\u00E7\u00F5es");
 		menuBar.add(mnProdutos);
 		
 		JMenuItem mntmNewMenuItem_3 = new JMenuItem("New menu item");
@@ -141,7 +166,7 @@ public class frm_main_menu extends Main {
 		JMenuItem mntmSairItem = new JMenuItem("Sair");
 		mntmSairItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				int yes = JOptionPane.showConfirmDialog(frmProjetoMecnica, "Tens certeza que quer sair do aplicativo?", "Confirmar Saída", JOptionPane.YES_NO_OPTION);
+				int yes = JOptionPane.showConfirmDialog(frmProjetoMecanica, "Tens certeza que quer sair do aplicativo?", "Confirmar Saída", JOptionPane.YES_NO_OPTION);
 				if(yes == JOptionPane.YES_OPTION) 
 					System.exit(0);
 				
@@ -153,7 +178,7 @@ public class frm_main_menu extends Main {
 		JPanel panel_footer = new JPanel();
 		panel_footer.setBackground(SystemColor.controlShadow);
 		panel_footer.setBounds(0, 457, 1016, 35);
-		frmProjetoMecnica.getContentPane().add(panel_footer);
+		frmProjetoMecanica.getContentPane().add(panel_footer);
 		panel_footer.setLayout(null);
 		
 		JLabel lbl_footer_welcome_msg = new JLabel("Bem-vindo %s");
@@ -168,10 +193,10 @@ public class frm_main_menu extends Main {
 		lbl_footer_datetime.setFont(new Font("Arial", Font.PLAIN, 14));
 		lbl_footer_datetime.setBounds(798, 5, 197, 19);
 		panel_footer.add(lbl_footer_datetime);
-		frmProjetoMecnica.setVisible(true);
+		frmProjetoMecanica.setVisible(true);
 		
 	
-		frmProjetoMecnica.addWindowListener(new WindowAdapter() {
+		frmProjetoMecanica.addWindowListener(new WindowAdapter() {
 			
 			public void windowOpened(WindowEvent e) {
 				lbl_footer_datetime.setText(getDatetime());

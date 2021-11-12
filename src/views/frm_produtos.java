@@ -13,10 +13,13 @@ import javax.swing.JPanel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 
 import controllers.ProdutoDAO;
+import models.Produto;
 
 import javax.swing.JTable;
 import javax.swing.JScrollPane;
@@ -175,10 +178,53 @@ public class frm_produtos {
 		frmProdutos.setVisible(true);
 		
 		btn_applyFilter.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent e) {
 				refreshResultadoFinal();
 			}
 		});
+		
+		btn_adiciona_carrinho.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				ListSelectionModel produto_selecionados =  table_result.getSelectionModel();
+				
+				if(produto_selecionados.isSelectionEmpty()) {
+					JOptionPane.showMessageDialog(null,"Selecione ao menos um produto.", "Projeto Mecânica", JOptionPane.ERROR_MESSAGE);
+					return;
+				}
+				int[] linha_itens_selecionados =  produto_selecionados.getSelectedIndices();
+
+				for (int linha : linha_itens_selecionados) {
+					System.out.println(table_result.getValueAt(linha, 8).toString());
+						if(table_result.getValueAt(linha, 8).toString().equals("SIM")) {
+							
+							Produto prod = new Produto();
+					
+							
+							prod.setDescricao(table_result.getValueAt(linha, 5).toString());
+							prod.setMarca(table_result.getValueAt(linha, 4).toString());
+							prod.setEstoque(Integer.parseInt(table_result.getValueAt(linha, 7).toString()));
+							prod.setTipo_produto(table_result.getValueAt(linha, 2).toString());
+							prod.setPreco(Double.parseDouble(table_result.getValueAt(linha, 6).toString().replace("R$","").trim()));
+							prod.setDisponivel(true);
+							
+							Main.currentUser.getCarrinho().setLista_de_produtos(prod);
+							
+						}else {
+							JOptionPane.showMessageDialog(frmProdutos, 
+									String.format("O produto '%s' não pode ser adicionado ao carrinho pois sua disponibilidade está zerada.",table_result.getValueAt(linha, 5).toString()), 
+									"Projeto Mecânica", 
+									JOptionPane.ERROR_MESSAGE);
+						}
+
+				}
+				JOptionPane.showMessageDialog(null, "Produtos adicionados ao carrinho", "Projeto Mecânica", JOptionPane.INFORMATION_MESSAGE);	
+
+				
+					
+			}
+		});
+		
 		
 	}
 	
@@ -221,7 +267,6 @@ public class frm_produtos {
 			table_result.revalidate();
 			table_result.repaint();
 			
-			//panel_results.repaint();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
