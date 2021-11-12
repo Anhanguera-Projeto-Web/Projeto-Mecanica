@@ -50,7 +50,7 @@ public class ProdutoDAO implements IProduto {
 								res.getString(6), 							// Descricao
 								"R$ "+Double.toString(res.getDouble(7)), 	// Valor
 								Integer.toString(res.getInt(8)),			// Estoque
-								(res.getBoolean(9)) ? "✔" : "❌"
+								(res.getBoolean(9)) ? "SIM" : "NAO"
 										
 								
 						});
@@ -134,9 +134,84 @@ public class ProdutoDAO implements IProduto {
 		}
 		
 	}
-	
-	
-	
 
+	@Override
+	public boolean CriarProduto(Produto prod) throws SQLException {
+		this.conn = new DBConnection().getConnection();
+		String sql = "CALL sp_criar_produto(?,?,?,?, ?);";
+		try {
+			PreparedStatement stmt = this.conn.prepareStatement(sql);
+				
+				PreparedStatement stmt_get_tipoid = this.conn.prepareStatement("SELECT produto_tipoid FROM produto_tipo WHERE definicao = ?");
+				PreparedStatement stmt_get_marcaid = this.conn.prepareStatement("SELECT produto_marcaid FROM produto_marca WHERE definicao = ?");
+				
+				int tipoid = 0;
+				int marcaid = 0;
+				
+				stmt_get_tipoid.setString(1, prod.getTipo_produto());
+				ResultSet res = stmt_get_tipoid.executeQuery();
+				if(res!=null) {
+					while(res.next()) {
+						tipoid = res.getInt("produto_tipoid");
+					}
+				}
+				stmt_get_tipoid.close();
+				
+				
+				stmt_get_marcaid.setString(1, prod.getMarca());
+				res = stmt_get_marcaid.executeQuery();
+				if(res!=null) {
+					while(res.next()) {
+						marcaid = res.getInt("produto_marcaid");
+					}
+				}
+				stmt_get_marcaid.close();
+				
+				stmt.setString(1, prod.getDescricao());
+				stmt.setInt(2, tipoid);
+				stmt.setInt(3, marcaid);
+				stmt.setDouble(4, prod.getPreco());
+				stmt.setInt(5, prod.getEstoque());
+				
+
+				stmt.executeQuery();
+				
+				stmt.close();
+				
+				return true;
+					
+		}catch(SQLException err) {
+			throw new RuntimeException(err);
+		}finally {
+			conn.close();
+		}
+	}
+
+	@Override
+	public ArrayList<String> GetMetodosPagamentos() throws SQLException {
+		this.conn = new DBConnection().getConnection();
+		String sql = "SELECT definicao FROM metodo_pagamento;";
+		try {
+			PreparedStatement stmt = this.conn.prepareStatement(sql);
+				
+			
+				ResultSet res = stmt.executeQuery();
+				if(res == null) return null;
+
+				ArrayList<String> marcas = new ArrayList<String>();
+					
+				while(res.next()) {
+					marcas.add(res.getString("definicao"));
+				}
+				stmt.close();
+				
+				return marcas;
+					
+		}catch(SQLException err) {
+			throw new RuntimeException(err);
+		}finally {
+			conn.close();
+		
+		}
+	}
 }
-
